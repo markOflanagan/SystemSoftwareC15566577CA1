@@ -5,8 +5,8 @@
 int  lockfile();
 void unlockfile();
 void server();
-void backingUp()
-//void logging();
-//void transferlive();
+void backingUp();
+void logging();
+void transferlive();
 
 #endif

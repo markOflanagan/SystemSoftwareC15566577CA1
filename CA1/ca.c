@@ -10,7 +10,7 @@
 //#include "backup.c"
 
 //global variable seen below 
-int midnightcheck = 0;
+//int midnightcheck = 0;
 
 bool  backCheck = false;
 
@@ -86,7 +86,7 @@ void server()
 int  lockfile()
 {
         syslog(LOG_INFO,"File LockDown Begining");
-	int Lcheck = system("chmod 444 /home/markoflanagan/CA1/intranet/intranet.txt");
+	int Lcheck = system("chmod 444 /home/markoflanagan/SystemSoftwareC15566577CA1/CA1/intranet/intranet.txt");
 
 	//lockdown variable used in backup.c program 	
 	return  Lcheck;
@@ -95,7 +95,7 @@ int  lockfile()
 void unlockfile()
 {
 	syslog(LOG_INFO,"File Unlocking");
-        system("chmod 755 /home/markoflanagan/CA1/intranet/intranet.txt");
+        system("chmod 755 /home/markoflanagan/SystemSoftwareC15566577CA1/CA1/intranet/intranet.txt");
 }
 int main()
 {
@@ -105,9 +105,8 @@ int main()
 	server();
 	while(1)
         	{
-
 			syslog(LOG_INFO, "Daemon Server Begining");
-			sleep(5);
+			sleep(3);
 			//crrating a time variable  to assign variable to systime
 			time_t currentTime;
                 	time(&currentTime);
@@ -118,13 +117,12 @@ int main()
 
 			while(backCheck == false)
 			{
-				if(midnightcheck == 17) 
+				if(midnightcheck == 22) 
 				{
-					syslog(LOG_INFO, "Backing Up");
+					syslog(LOG_INFO, "CALLING BACKUP PROGRAM");
 					backCheck = true;
                                         //logging();
-					syslog(LOG_INFO, "Backup Passed");
-					backingUp(); 
+//					backingUp(); 
 					transferlive();
 
 				}

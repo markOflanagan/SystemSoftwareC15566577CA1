@@ -36,7 +36,7 @@ void transferlive()
                 nbytes = read(fd[0], readbuffer, sizeof(readbuffer));
                 syslog(LOG_INFO, readbuffer);
                 //kills parent make orphan
-                //exit(EXIT_SUCCESS);
+                exit(0);
                 //sends no output 
 
                 //syslog(LOG_INFO,"test2");
@@ -54,29 +54,29 @@ void transferlive()
                 //if  checker is  equal to anyting else that is not -1 it will allow the copying of the files to occur and passs a success message onto the user 
                 if(prechecker == -1)
                 {
+		 unlockfile();
                  syslog(LOG_INFO,"pre checker status : %d ",prechecker);
                  char message[] = "transfer failed";
                  write(fd[1],message,(strlen(message)+1));
-                 unlockfile();
                 }
                 else
                 {
+		 unlockfile();
                  syslog(LOG_INFO,"pre checker status : %d ",prechecker); 
                  char message[] = "transfer success";
                  write(fd[1],message,(strlen(message)+1));
-                 unlockfile();
                 }
 
 
 
-}
+	}
 
 }
 int live()
 {
         syslog(LOG_INFO, "Begining File Transfer check");
         //int value informs us if in fact transfer  was succesful or if it had failed
-        int  prechecker = system("sudo cp -u /home/markoflanagan/CA1/intranet/intranet.txt /home/markoflanagan/CA1/live/live.txt");
+        int  prechecker = system("sudo cp -u /home/markoflanagan/SystemSoftwareC15566577CA1/CA1/intranet/intranet.txt /home/markoflanagan/SystemSoftwareC15566577CA1/CA1/live/live.txt");
         return prechecker;
         //syslog(LOG_INFO, "failed");
 }
