@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <syslog.h>
+#include <time.h>
+#include <sys/types.h>
+#include <string.h>
+#include "ca.h"
+
+// declare functions
+
+int backingUp()
+{
+
+
+	//creating a backup fork known as bpid
+     	int  bpid = fork();
+
+
+    	//if this is true PID is a parent 
+     	if(bpid > 0){
+
+        printf("Parent Process");
+        sleep(10);
+	//kills parent make orphan
+        
+
+
+    	}
+	else if (bpid==0)
+	{
+
+		//lockfile operation
+		lockfile();
+		//used for the check system to copy files
+		int  prechecker = system("cp -u /home/markoflanagan/CA1/intranet/intranet.txt /home/markoflanagan/CA1/live/live.txt");
+		//used for the check when backing up the file 
+		int  backchecker = system("cp -u /home/markoflanagan/CA1/intranet/intranet.txt /home/markoflanagan/CA1/backup/backup.txt");
+
+
+		//if  checker is  equal to    allow the copying of the files to occur and psss a success message onto the 
+		if(prechecker == -1)
+		{
+
+			return -1;
+		}
+		else
+		{
+			return 1;
+		}
+		unlockfile();
+		exit(0);
+	}
+
+
+
+
+}

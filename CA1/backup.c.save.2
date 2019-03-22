@@ -1,0 +1,56 @@
+#include stdio.h 
+#include stdlib.h
+
+int main()
+{
+
+	fileDest =  "/home/markoflanagan/CA1/live/live.txt";
+	fileSource = "/home/markoflanagan/CA1/intranet/intranet.txt";
+
+
+
+	//creating a new fork known as backup fork  or bpid
+	int bpid = fork();
+
+	//if this is true PID is a parent 
+    	if(bpid > 0){
+
+        printf("Parent Process");
+        sleep(10);
+        //kills parent make orphan
+        exit("Exit Succeded");
+
+	//child process
+        else if(bpid==0){
+
+		system("chmod filSource 444");
+
+
+
+
+		int  backup ()
+		{
+			system("cp fileDest fileSource");	
+
+
+
+
+
+	
+		}
+
+
+
+
+
+
+	}
+
+
+
+
+
+
+
+
+}

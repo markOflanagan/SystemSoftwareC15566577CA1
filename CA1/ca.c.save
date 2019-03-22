@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <syslog.h>
+#include <time.h>
+#include <sys/types.h>
+#include <string.h>
+
+int main()
+{
+
+    //creating a child process
+     int pid = fork();
+
+
+    //if this is true PID is a parent 
+     if(pid > 0){
+
+        printf("Parent Process");
+        sleep(10);
+	//kills parent make orphan
+        exit("Exit Succeded");
+
+
+    }
+	// making sure it is a child process
+    else if(pid==0)
+    {
+        printf("Child Process");
+	//used for logging purposes
+	 openlog("slog", LOG_PID|LOG_CONS, LOG_USER);
+	//log message 
+         syslog(LOG_INFO, "Information Logged ");
+
+
+
+       //begins a new process in a new session
+	 if (setsid() < 0)
+        {
+            exit(EXIT_FAILURE);
+        }
+	//allows daemon to read/write with the permissions required
+        umask(0);
+
+	//ensures that any issues regarding mounted drives are handled 
+        if (chdir("/") < 0)
+        {
+            exit(EXIT_FAILURE);
+        }
+	//closes all file descritpors 
+        int x;
+        for(x = sysconf(_SC_OPEN_MAX); x>=0; x--)
+        {
+            close(x);
+        }
+
+	int test;
+	test = 5;
+
+        while(1)
+        {
+            sleep(1);
+            printf("child 1: my parent is: %i\n",getppid());
+
+	    int  fd[2] , nbytes;
+	    pid;
+	    char string [] = "hello world!!\n";
+            char readbuffer[100];
+
+	    pipe(fd);
+	    pid = fork();
+
+	    if(pid==0)
+	    {
+	    	close(fd[0]);
+
+		write(fd[1], string, (strlen(string)+1);
+		exit();
+
+	    }
+	    if(pid==1)
+            {
+                close(fd[1]);
+
+                nbytes = read(fd[0],readbuffer,sizeof(readbuffer));
+                printf("Message from Child: %s",readbuffer);
+
+            }
+
+	    int backuppid = fork();
+	    int bfd[2];	
+
+	    if(backuppid == 0)
+	    {
+
+
+
+	    } 
+        }
+
+    }
+    //log closing
+    closelog();
+    return 0;
+
+
+}

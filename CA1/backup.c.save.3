@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <syslog.h>
+#include <time.h>
+#include <sys/types.h>
+#include <string.h>
+
+int main()
+{
+
+	fileDest =  "/home/markoflanagan/CA1/live/live.txt";
+	fileSource = "/home/markoflanagan/CA1/intranet/intranet.txt";
+
+
+
+	//creating a backup fork known as bpid
+     	int  bpid = fork();
+
+
+    //if this is true PID is a parent 
+     	if(pid > 0){
+
+        printf("Parent Process");
+        sleep(10);
+	//kills parent make orphan
+        exit("Exit Succeded");
+
+
+    	}
+	else if (bpid==0){
+
+		//lockfile operation 
+		lockfile();
+		//used for the check system to copy files 
+		int  precheck = sysetem("cp -u /home/markoflanagan/CA1/intranet/intranet.txt /home/markoflanagan/CA1/intranet/intranet.txt ");	
+		//if  checker is  equal to system value of -1 allow the copying of the files to occur and psss a success message onto the 
+		if(precheck == -1) 
+		{
+			system("cp /home/markoflanagan/CA1/intranet/intranet.txt /home/markoflanagan/CA1/live/live.txt");
+			return -1;
+		}
+		else
+		{
+			return 1;
+		} 
+
+	}
+	        
+
+                //unlock the file we previously locked 
+                unlockfile();
+
+
+
+}
+void  lockfile()
+{
+	sytem("chmod 444 /home/markoflanagan/CA1/intranet/intranet.txt");	
+}
+
+void unlockfile()
+{
+	system("chmod 777 /home/markoflanagan/CA1/intranet/intranet.txt");
+}

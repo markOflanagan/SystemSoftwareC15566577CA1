@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <syslog.h>
+#include <time.h>
+#include <sys/types.h>
+#include <string.h>
+#include "ca.h"
+
+void server()
+{
+
+    //creating a child process
+     int pid = fork();
+
+
+    //if this is true PID is a parent 
+     if(pid > 0){
+
+        printf("Parent Process");
+        sleep(10);
+	//kills parent make orphan
+        exit("Exit Succeded");
+
+
+    }
+	// making sure it is a child process
+    else if(pid==0)
+    {
+        printf("Child Process");
+	//used for logging purposes
+	 openlog("slog", LOG_PID|LOG_CONS, LOG_USER);
+	//log message 
+         syslog(LOG_INFO, "Information Logged ");
+
+
+
+       //begins a new process in a new session
+	 if (setsid() < 0)
+        {
+            exit(EXIT_FAILURE);
+        }
+	//allows daemon to read/write with the permissions required
+        umask(0);
+
+	//ensures that any issues regarding mounted drives are handled 
+        if (chdir("/") < 0)
+        {
+            exit(EXIT_FAILURE);
+        }
+	//closes all file descritpors 
+        int x;
+        for(x = sysconf(_SC_OPEN_MAX); x>=0; x--)
+        {
+            close(x);
+        }
+
+	int test;
+	test = 5;
+
+
+
+}
+int main(){
+
+
+	server();
+	while(1)
+        	{
+
+		
+			time_t currentTime;
+	                time(&currentTime);
+			
+			struct  tm  *myTime  = localtime(&currentTime);
+
+
+
+		if(hours==hr && minutes==min) {
+            		sleep(1);
+            		backup();
+
+
+        		syslog(LOG_INFO, "Backup Logged ");
+
+			int result = backup; 
+
+			if(result ==-1)
+			{
+				printf("Failed");
+			}
+			else
+			{
+				printf("Passed");
+			}
+		}
+
+		else{
+		syslog(LOG_INFO, "Backup Not Logged ");
+
+
+    }
+    //log closing
+    closelog();
+    return 0;
+
+
+}
